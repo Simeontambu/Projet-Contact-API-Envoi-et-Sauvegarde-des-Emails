@@ -9,8 +9,13 @@ export class GoogleSheetsService {
     private spreadsheetId = process.env.SPREADSHEET_ID;
 
     constructor() {
+        const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON ?? "{}");
+        serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+        console.log("serviceAccount",serviceAccount);
+        
         const auth = new google.auth.GoogleAuth({
-            keyFile: join(process.cwd(), 'src/config/service-account.json'),
+            // keyFile: join(process.cwd(), 'src/config/service-account.json'),
+            credentials: serviceAccount,
             scopes: ['https://www.googleapis.com/auth/spreadsheets'],
         });
         this.sheets = google.sheets({ version: 'v4', auth });

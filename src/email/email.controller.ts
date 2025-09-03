@@ -15,4 +15,5 @@ export class EmailController {
     await this.emailService.sendContactEmail(body);
     return { message: 'Message envoyé avec succès' };
   }
+
 }
